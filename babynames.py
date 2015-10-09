@@ -28,22 +28,14 @@ def look_for_names(file_n):
 		lines += 1
 		s = find_pat(r'<tr align="right"><td>\d+',l)
 		if s!="not_found":
-			pos = find_pat(r'\d+',find_pat(r'>\d+',s))
-			name_m = find_pat(r'<tr align="right"><td>\d+</td><td>[A-Za-z]+',l) #returns <tr align="right"><td>1</td><td>Michael
-			name_m = find_pat(r'>[A-Za-z]+',name_m) #returns >Michael
-			name_m = find_pat(r'[A-Za-z]+',name_m)
+			m = re.search(r'<tr align="right"><td>(\d+)</td><td>([A-Za-z]+)</td><td>([A-Za-z]+)</td>',l)
+			pos = m.group(1)
+			name_m = m.group(2)
+			name_f = m.group(3)
 			
-			#name_m = find_pat(r'>\w+',find_pat(r'<td>\d+</td><td>\w+',l)) #returns '>name'
-			#name_m = find_pat(r'\w+',name_m) #returns 'name'
-			
-			#name_m = "saul%s" % lines
-			
-			#name_f = find_pat(r'<td>\w+</td><td>\w+',l) #returns <td>Michael</td><td>Jessica
-			#name_f = find_pat(r'</td><td>\w+',name_f) #returns </td><td>Jessica
-			#name_f = find_pat(r'>\w+',name_f) #returns >Jessica
-			#name_f = find_pat(r'\w',name_f) #returns Jessica
 			names_d[name_m] = pos
-			#names_d[name_f] = pos
+			names_d[name_f] = pos
+		
 	
 	return names_d
 
